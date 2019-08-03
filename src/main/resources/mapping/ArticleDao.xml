@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.furesky.cms.dao.ArticleDao">
+	<select id="getById" resultType="com.furesky.cms.model.Article">
+		SELECT 
+			article_id articleId,
+  		 	title,
+   			author,
+   			summary,
+   			content  
+		FROM article_info
+		WHERE article_id = #{articleId} 
+		AND state=0
+	</select>
+	
+	<select id="getListByCatalogId" resultType="com.furesky.cms.model.Article">
+		SELECT 
+			article_id articleId,
+  		 	title,
+   			author,
+   			summary,
+   			content  
+		FROM article_info
+		WHERE catalog_id = #{calalogId} 
+		AND state=0
+		ORDER BY article_id ASC
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO article_info(
+			article_id,
+			title,
+   			author,
+   			summary,
+   			content,
+   			catalog_id,
+   			state,   			
+   			create_time
+		) VALUES (
+			#{articleId},
+			#{title},
+			#{author},
+			#{summary},			
+			#{content},	
+			#{catalogId},	
+			0,
+			now()		
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE article_info a SET
+			a.update_time = now()
+			<if test="title !=null and title !=''">
+			 	,a.title = #{title}
+			</if>
+			<if test="author !=null and author !=''">
+				,a.author = #{author}
+			</if>
+			<if test="summary !=null and summary !=''">
+				,a.summary = #{summary}
+			</if>
+			<if test="content !=null and content !=''">
+				,a.content = #{content}
+			</if>
+		WHERE a.article_id = #{articleId}
+		AND state=0
+	</update>
+	
+	<update id="delete">
+		UPDATE article_info a
+		SET a.state = 1
+		WHERE
+			a.article_id = #{articleId}
+	</update>
+	
+</mapper>

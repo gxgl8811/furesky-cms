@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.furesky.cms.dao.LabelDao">	
+	<select id="getList" resultType="com.furesky.cms.model.Label">
+		SELECT 
+			label_id labelId,
+  		 	label_name labelName
+		FROM label_info
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO label_info(
+			label_id,
+  		 	label_name
+		) VALUES (
+			#{labelId},
+			#{labelName}
+		)
+	</insert>	
+	
+	<delete id="deleteById">
+		DELETE FROM label_info 
+		WHERE label_id = #{articleId}  
+	</delete>
+	
+	<select id="getByLabelName" resultType="com.furesky.cms.model.Label">
+		SELECT 
+			label_id labelId,
+  		 	label_name labelName
+		FROM label_info
+		WHERE label_name=#{labelName}
+	</select>
+</mapper>

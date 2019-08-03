@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.furesky.cms.dao.CatalogDao">
+	<select id="getListByClassName" resultType="com.furesky.cms.model.Catalog">
+		SELECT 
+			catalog_id catalogId,
+			catalog_name catalogName,
+			parent_id parentId,
+			rank  	
+		FROM catalog_info
+		WHERE class_name = #{className} 
+	</select>
+	
+	<select id="getById" resultType="com.furesky.cms.model.Catalog">
+		SELECT 
+			catalog_id catalogId,
+			catalog_name catalogName,
+			parent_id parentId,
+			rank  	
+		FROM catalog_info
+		WHERE catalog_id = #{catalogId} 
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO catalog_info(
+			catalog_id,
+			catalog_name,
+   			parent_id,
+   			rank,
+   			class_name
+		) VALUES (
+			#{catalogId},
+			#{catalogName},
+			#{parentId},
+			#{rank},
+			#{className}	
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE catalog_info a SET
+			1=1
+			<if test="catalogName !=null and catalogName !=''">
+				,a.catalog_name = #{catalogName}
+			</if>
+			<if test="parentId !=null and parentId !=''">
+				,a.parent_id = #{parentId}
+			</if>
+			<if test="rank !=null and rank !=''">
+				,a.rank = #{rank}
+			</if>
+		WHERE a.catalog_id = #{catalogId}
+	</update>
+	
+	<delete id="deleteById">
+		DELETE FROM catalog_info 
+		WHERE catalog_id = #{catalogId}  
+	</delete>
+</mapper>
