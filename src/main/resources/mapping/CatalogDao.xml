@@ -41,7 +41,7 @@
 	
 	<update id="update">
 		UPDATE catalog_info a SET
-			1=1
+			update_time=now()
 			<if test="catalogName !=null and catalogName !=''">
 				,a.catalog_name = #{catalogName}
 			</if>

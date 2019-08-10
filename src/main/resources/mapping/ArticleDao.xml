@@ -17,15 +17,19 @@
 	
 	<select id="getListByCatalogId" resultType="com.furesky.cms.model.Article">
 		SELECT 
-			article_id articleId,
-  		 	title,
-   			author,
-   			summary,
-   			content  
-		FROM article_info
-		WHERE catalog_id = #{calalogId} 
-		AND state=0
-		ORDER BY article_id ASC
+			a.article_id articleId,
+  		 	a.title,
+   			a.author,
+   			a.state,
+   			a.summary,
+   			a.content,
+   			b.catalog_id catalogId,
+   			b.catalog_name catalogName   			
+		FROM article_info a,catalog_info b
+		WHERE a.catalog_id=b.catalog_id
+		AND a.catalog_id = #{calalogId} 
+		AND a.state=0
+		ORDER BY a.article_id ASC
 	</select>
 	
 	<insert id="insert">
@@ -65,11 +69,14 @@
 			<if test="content !=null and content !=''">
 				,a.content = #{content}
 			</if>
+			<if test="catalogId !=null and catalogId !=''">
+				,a.catalog_Id = #{catalogId}
+			</if>
 		WHERE a.article_id = #{articleId}
 		AND state=0
 	</update>
 	
-	<update id="delete">
+	<update id="deleteById">
 		UPDATE article_info a
 		SET a.state = 1
 		WHERE

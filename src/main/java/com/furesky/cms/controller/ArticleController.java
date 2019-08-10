@@ -67,6 +67,32 @@ public class ArticleController {
 		return ActionResult.getError("添加失败！");
 	}
 	
+	@RequestMapping(value="/update",method=RequestMethod.GET)
+	public Object changeArticle() {
+		return "update_article";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/changeCatalog",method=RequestMethod.POST)
+	public ActionResult changeCatalog(HttpServletRequest request) {
+		String newCatalogId=request.getParameter("newCatalogId");
+		String articleId=request.getParameter("articleId");
+		
+		if(StringUtils.isEmpty(newCatalogId) || StringUtils.isEmpty(articleId)){
+			return ActionResult.getError("输入不能为空！");
+		}
+		
+		Article article=new Article();
+		article.setArticleId(articleId);
+		article.setCatalogId(newCatalogId);
+		int result=articleService.update(article);
+		
+		if(result==1){
+			return ActionResult.getSuccess("改变文章所属目录成功！");
+		}
+		return ActionResult.getError("改变文章所属目录失败！");
+	}
+	
 	@ResponseBody
 	@RequestMapping(value="/get",method=RequestMethod.POST)
 	public ActionResult getById(HttpServletRequest request) {
@@ -99,5 +125,19 @@ public class ArticleController {
 			return ActionResult.getSuccess("修改成功！");
 		}
 		return ActionResult.getError("修改失败!");
+	}
+	
+	@ResponseBody
+	@RequestMapping("/delete")
+	public ActionResult deleteArticle(HttpServletRequest request) {
+		String articleId=request.getParameter("del_articleId");
+		if(StringUtils.isEmpty(articleId)){
+			return ActionResult.getError("请选择要删除的文章！");
+		}
+		int result= articleService.deleteById(articleId);
+		if(result==1){
+			return ActionResult.getSuccess("删除成功！");
+		}
+		return ActionResult.getError("修删除失败!");
 	}
 }

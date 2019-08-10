@@ -8,6 +8,7 @@ public class Article{
 	private String content;
 	private String state;
 	private String catalogId;
+	private String catalogName;
 	
 	
 	public String getArticleId() {
@@ -51,5 +52,11 @@ public class Article{
 	}
 	public void setCatalogId(String catalogId) {
 		this.catalogId = catalogId;
+	}
+	public String getCatalogName() {
+		return catalogName;
+	}
+	public void setCatalogName(String catalogName) {
+		this.catalogName = catalogName;
 	}
 }

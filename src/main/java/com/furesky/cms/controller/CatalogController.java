@@ -22,7 +22,7 @@ public class CatalogController {
 	@Autowired
 	private CatalogService catalogService;
 
-	@RequestMapping(value="/add",method=RequestMethod.GET)
+	@RequestMapping(value="/edit",method=RequestMethod.GET)
 	public Object addCatalog() {
 		return "catalog";
 	}
@@ -54,6 +54,30 @@ public class CatalogController {
 		catalog.setClassName(className);
 		catalog.setParentId(parentId);
 		int result=catalogService.insert(catalog);
+		if(result==1){
+			return ActionResult.getSuccess("添加成功！");
+		}
+		return ActionResult.getError("添加失败！");
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/updateCatalog",method=RequestMethod.POST)
+	public ActionResult updateCatalog(HttpServletRequest request) {
+		String newCatalogName=request.getParameter("newCatalogName");
+		String oldCatalogId=request.getParameter("oldCatalogId");
+		
+		if(StringUtils.isEmpty(oldCatalogId)){
+			return ActionResult.getError("原目录名不能为空！");
+		}
+		if(StringUtils.isEmpty(newCatalogName)){
+			return ActionResult.getError("新目录名不能为空！");
+		}
+
+		
+		Catalog catalog=new Catalog();			
+		catalog.setCatalogId(oldCatalogId);	
+		catalog.setCatalogName(newCatalogName);
+		int result=catalogService.update(catalog);
 		if(result==1){
 			return ActionResult.getSuccess("添加成功！");
 		}

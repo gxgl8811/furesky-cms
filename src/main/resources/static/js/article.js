@@ -1,4 +1,4 @@
-function onloadArticle(catalogId) {
+function onloadArticle(catalogId, type) {
 	$.ajax({
 		async : false,
 		type : "post",
@@ -10,7 +10,13 @@ function onloadArticle(catalogId) {
 		dataType : "json",
 		success : function(result) {
 			if (result.successful) {
-				initArticlePage(result.data);
+				loadArticleList(result.data);
+				if (type == "loadArticle") {
+					initArticle();
+				}
+				if (type == "changeCatalog") {
+					initArticleList();
+				}
 			} else {
 				alert(result.message);
 			}
@@ -21,22 +27,21 @@ function onloadArticle(catalogId) {
 	});
 }
 
-function initArticlePage(articleList) {
-	$("#titleList ul li").remove();
-	if (articleList.length == 0) {
-		$("#titleList").attr("class", "collapse");
-	} else {
-		$("#titleList").attr("class", "collapse in");
-	}
+//
+function initArticleList() {
+	// 注册点击事件
+	$("#titleList a").click(function() {
+		$("#articleId").attr("value",$(this).attr("articleId"));
+		$("#articleName").attr("value",$(this).text());
+		$("#oldCatalogName").attr("value",$(this).attr("catalogName"));	
+		
+		$("#del_articleName").attr("value",$(this).text());
+		$("#del_articleId").attr("value",$(this).attr("articleId"));
+	});
+}
 
-	var title;
-	for (var i = 0; i < articleList.length; i++) {
-		title = articleList[i].title;
-		$("#titleList ul").append(
-				" <li><a articleId=" + articleList[i].articleId + ">"
-						+ title.substring(4, title.length - 5) + "</a></li>");
-	}
-
+//加载文章内容
+function initArticle() {
 	// 注册点击事件
 	$("#titleList a").click(function() {
 		if (!isSaved) {
@@ -46,20 +51,40 @@ function initArticlePage(articleList) {
 			}
 		}
 		$("#article_info").removeAttr("hidden");
-		//$("#titleList").attr("class", "collapse");
+		// $("#titleList").attr("class", "collapse");
 		getArticle($(this).attr("articleId"));
-		
-		//加载代码高亮
+
+		// 加载代码高亮
 		initHighCode();
 	});
 }
-function initHighCode(){
-	var codes=$("#article_content").find("code");
+function loadArticleList(articleList) {
+	$("#titleList ul li").remove();
+	if (articleList.length == 0) {
+		$("#titleList").attr("class", "collapse");
+	} else {
+		$("#titleList").attr("class", "collapse in");
+	}
+
+	var article;
+	var title;
+	for (var i = 0; i < articleList.length; i++) {
+		article=articleList[i];
+		title=article.title;
+		$("#titleList ul").append(" <li>"
+				+"<a catalogId="+article.catalogId+" catalogName="+article.catalogName
+				+" articleId=" + article.articleId + ">"+ title.substring(4, title.length - 5) 
+				+"</a>" 
+				+"</li>");
+	}
+}
+function initHighCode() {
+	var codes = $("#article_content").find("code");
 	var highCode;
-	for(var i = 0; i < codes.length; i++) {
-		highCode=hljs.highlightAuto(codes[i].innerText).value;
-		codes[i].innerHTML=highCode;
-	}	
+	for (var i = 0; i < codes.length; i++) {
+		highCode = hljs.highlightAuto(codes[i].innerText).value;
+		codes[i].innerHTML = highCode;
+	}
 }
 
 function getArticle(articleId) {
@@ -86,4 +111,3 @@ function getArticle(articleId) {
 		}
 	});
 }
-

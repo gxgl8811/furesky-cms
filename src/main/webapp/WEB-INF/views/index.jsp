@@ -81,7 +81,7 @@
 				}
 			}
 			$("#article_info").attr("hidden", "hidden");
-			onloadArticle(node.catalogId);
+			onloadArticle(node.catalogId,"loadArticle");
 		}
 	</script>
 </body>

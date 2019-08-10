@@ -55,7 +55,9 @@
 					</ul></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
 					role="button" aria-haspopup="true" aria-expanded="false">DveTool <span class="caret"></span></a>
-					<ul class="dropdown-menu">
+					<ul class="dropdown-menu">						
+						<li><a href="#">Eclipse</a></li>
+						<li role="separator" class="divider"></li>
 						<li><a href="#">Git/GitHub</a></li>
 						<li><a href="#">Kettle</a></li>
 						<li><a href="#">...</a></li>
@@ -84,8 +86,9 @@
 						class="glyphicon glyphicon-user"></span></a>
 					<ul class="dropdown-menu">
 						<!-- <li><a href="cms/label/add">新建标签</a></li> -->
-						<li><a href="${pageContext.request.contextPath}/cms/catalog/add">新建目录</a></li>
+						<li><a href="${pageContext.request.contextPath}/cms/catalog/edit">编辑目录</a></li>
 						<li><a href="${pageContext.request.contextPath}/cms/article/add">新建文章</a></li>
+						<li><a href="${pageContext.request.contextPath}/cms/article/update">修改文章</a></li>
 					</ul></li>
 			</ul>
 			<form class="navbar-form navbar-right" action="http://www.baidu.com/baidu" target="_blank">

@@ -10,45 +10,60 @@
 
 <link rel=icon type="image/png" href="${pageContext.request.contextPath}/images/000000/logo.ico">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" />
-<link rel="stylesheet" href="${pageContext.request.contextPath}/plugins/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/plugins/bootstrap/css/bootstrap-treeview.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/plugins/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/plugins/bootstrap/css/bootstrap-treeview.min.css">
 </head>
 <body>
 	<div class="container">
 		<div class="row">
 			<div id="top_nav">
-				<%@ include file="header.jsp" %>
+				<%@ include file="header.jsp"%>
 			</div>
-			<div id="left_sidebar" class="col-md-2" ></div>
-			<div class="col-md-2"></div>
-			<div id="main_content" class="col-md-4">
+			<div id="left_sidebar" class="col-md-2"></div>
+			<div class="col-md-1"></div>
+			<div id="main_content" class="col-md-3">
+				<h3><span class="label label-primary">添加新目录</span></h3>
+				<br/>
 				<form id="addCatalogForm">
 					<div class="form-group">
-						<label for="catalogName">目录名称</label>
+						<label for="catalogName">名称：</label>
+						<input type="text" class="form-control" name="catalogName" placeholder="" />
 					</div>
 					<div class="form-group">
-						<input type="text" class="form-control" name="catalogName" placeholder="Catalog Name" />
-					</div>
-					<div class="form-group">
-						<label for="parentName">父目录名称</label>
-					</div>
-					<div class="form-group">
+						<label for="parentName">父目录：</label>
 						<input type="text" class="form-control" name="parentName" id="parentName"
-							placeholder="请从左侧选择父目录.." disabled>
+							placeholder="请从左侧选择父目录..." disabled>
 					</div>
 					<div class="form-group">
-						<label for="rank">在父目录下的排序</label>
-					</div>
-					<div class="form-group">
+						<label for="rank">在父目录下的排序：</label>
 						<input type="text" class="form-control" name="rank" id="rank" value="1">
 					</div>
-					<input type="text" name="parentId" id="parentId" hidden="hidden"> <input type="text"
-						name="className" id="className" hidden="hidden"> <input type="submit"
-						class="btn btn-default" value="确定">
+					<input type="text" name="parentId" id="parentId" hidden="hidden" /> <input type="submit"
+						class="btn btn-default" value="确定" />
 				</form>
 			</div>
-			<div class="col-md-4"></div>
-		</div>		
+			<div class="col-md-1"></div>
+			<div class="col-md-3">
+				<h3><span class="label label-primary">修改目录名称</span></h3>
+				<br/>
+				<form id="updateCatalogForm">
+					<div class="form-group">
+						<label for="newCatalogName">新名称：</label>
+						<input type="text" class="form-control" name="newCatalogName" placeholder="" />
+					</div>
+					<div class="form-group">
+						<label for="oldCatalogName">原目录：</label>
+						<input type="text" class="form-control" name="oldCatalogName" id="oldCatalogName"
+							placeholder="请从左侧选择原目录..." disabled>
+					</div>
+					<input type="text" name="oldCatalogId" id="oldCatalogId" hidden="hidden" /> <input
+						type="submit" class="btn btn-default" value="确定" />
+				</form>
+			</div>
+			<div class="col-md-2"></div>
+		</div>
 		<div class="row">
 			<br /> <br /> <br />
 		</div>
@@ -67,16 +82,33 @@
 	<script type="text/javascript">
 		function selectMenu(event, node) {
 			$("#parentName").attr("value", node.catalogName);
-			$("#parentId").attr("value", node.catalogId);			
+			$("#parentId").attr("value", node.catalogId);
+			$("#oldCatalogName").attr("value", node.catalogName);
+			$("#oldCatalogId").attr("value", node.catalogId);
 		}
 		$("#addCatalogForm").submit(function() {
-			$("#className").attr("value", $("#top_nav").attr("data_current_class"));
 			$.ajax({
 				async : false,
 				type : "post",
 				url : "addCatalog",
 				contentType : "application/x-www-form-urlencoded",
 				data : $("#addCatalogForm").serialize(),
+				dataType : "json",
+				success : function(result) {
+					alert(result.message);
+				},
+				error : function(err) {
+					alert("404！");
+				}
+			});
+		});
+		$("#updateCatalogForm").submit(function() {
+			$.ajax({
+				async : false,
+				type : "post",
+				url : "updateCatalog",
+				contentType : "application/x-www-form-urlencoded",
+				data : $("#updateCatalogForm").serialize(),
 				dataType : "json",
 				success : function(result) {
 					alert(result.message);
