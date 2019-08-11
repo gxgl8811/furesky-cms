@@ -107,8 +107,8 @@ public class ArticleController {
 	}
 
 	@ResponseBody
-	@RequestMapping("/update")
-	public ActionResult updateArticle(HttpServletRequest request) {
+	@RequestMapping("/edit")
+	public ActionResult editArticle(HttpServletRequest request) {
 		String articleId=request.getParameter("articleId");
 		String title=request.getParameter("title");
 		String content=request.getParameter("content");

@@ -25,7 +25,7 @@ function saveArticle() {
     var content = $("#article_content").html();
 
     $.ajax({
-    	url : "/furesky/cms/article/update",
+    	url : "/furesky/cms/article/edit",
     	type : "post",    
     	contentType : "application/x-www-form-urlencoded",
     	data : {

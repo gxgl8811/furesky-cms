@@ -25,10 +25,6 @@ public class CommonController {
 	
 	@RequestMapping("/")
 	public String index() {
-		String className=LocalCache.getLocalCache().get("className");
-		if(StringUtils.isEmpty(className)){
-			LocalCache.getLocalCache().put("className", "JavaSE");
-		}		
 	    return "/index";
 	}
 	
@@ -37,9 +33,9 @@ public class CommonController {
     public ActionResult getMemus(HttpServletRequest request){	
 		String className=request.getParameter("className");
     	if(StringUtils.isEmpty(className)){
-    		className=LocalCache.getLocalCache().get("className");
+    		className=LocalCache.get("className");
     	}else {
-    		LocalCache.getLocalCache().put("className",className);
+    		LocalCache.put("className",className);
 		}
     	List<Catalog> catalogs = catalogService.getListByClassName(className);
     	if(catalogs==null||catalogs.size()<1){

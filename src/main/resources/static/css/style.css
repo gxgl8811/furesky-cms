@@ -19,9 +19,17 @@ a.dropdown-toggle {
     font-weight:bold;
 }
 
- body pre code {
+#titleList ul li a{
+	text-decoration:none;
+	cursor: pointer;
+}
+
+
+
+body pre code {
 	font-size: 15px;
 }
+
 
 /* ----------------------------------- hover -----------------------------------*/
 .container .navbar-brand {

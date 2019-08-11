@@ -5,10 +5,15 @@ import java.util.Map;
 
 public class LocalCache {
 	private static Map<String,String> cacheMap = new HashMap<>();
-	private LocalCache() {
-		
+	static {
+		cacheMap.put("className", "JavaSE");
 	}
-	public static Map<String,String> getLocalCache(){
-		return cacheMap;
-	}	
+	
+	public static String get(String key) {
+		return cacheMap.get(key);
+	}
+	public static void put(String key,String value) {
+		cacheMap.put(key, value);
+	}
+	
 }

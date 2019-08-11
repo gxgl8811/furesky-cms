@@ -27,37 +27,6 @@ function onloadArticle(catalogId, type) {
 	});
 }
 
-//
-function initArticleList() {
-	// 注册点击事件
-	$("#titleList a").click(function() {
-		$("#articleId").attr("value",$(this).attr("articleId"));
-		$("#articleName").attr("value",$(this).text());
-		$("#oldCatalogName").attr("value",$(this).attr("catalogName"));	
-		
-		$("#del_articleName").attr("value",$(this).text());
-		$("#del_articleId").attr("value",$(this).attr("articleId"));
-	});
-}
-
-//加载文章内容
-function initArticle() {
-	// 注册点击事件
-	$("#titleList a").click(function() {
-		if (!isSaved) {
-			if (!confirm("你修改的内容未保存，是否真的要离开？")) {
-				isSaved = true;
-				return;
-			}
-		}
-		$("#article_info").removeAttr("hidden");
-		// $("#titleList").attr("class", "collapse");
-		getArticle($(this).attr("articleId"));
-
-		// 加载代码高亮
-		initHighCode();
-	});
-}
 function loadArticleList(articleList) {
 	$("#titleList ul li").remove();
 	if (articleList.length == 0) {
@@ -68,25 +37,50 @@ function loadArticleList(articleList) {
 
 	var article;
 	var title;
+	var node;
 	for (var i = 0; i < articleList.length; i++) {
 		article=articleList[i];
 		title=article.title;
-		$("#titleList ul").append(" <li>"
-				+"<a catalogId="+article.catalogId+" catalogName="+article.catalogName
-				+" articleId=" + article.articleId + ">"+ title.substring(4, title.length - 5) 
-				+"</a>" 
-				+"</li>");
-	}
-}
-function initHighCode() {
-	var codes = $("#article_content").find("code");
-	var highCode;
-	for (var i = 0; i < codes.length; i++) {
-		highCode = hljs.highlightAuto(codes[i].innerText).value;
-		codes[i].innerHTML = highCode;
+		$("#titleList ul").append("<li><a></a></li>");
+		node=$("#titleList ul").children("li:eq("+i+")").children("a:first");
+		node.attr("catalog_id",article.catalogId);
+		node.attr("catalog_name",article.catalogName);
+		node.attr("article_id",article.articleId);
+		node.text(title.substring(4, title.length - 5));
 	}
 }
 
+//
+function initArticleList() {
+	// 注册点击事件
+	$("#titleList a").click(function() {
+		$("#articleId").attr("value",$(this).attr("article_id"));
+		$("#articleName").attr("value",$(this).text());
+		$("#oldCatalogName").attr("value",$(this).attr("catalog_name"));	
+		
+		$("#del_articleName").attr("value",$(this).text());
+		$("#del_articleId").attr("value",$(this).attr("article_id"));
+	});
+}
+
+//加载文章内容
+function initArticle() {
+	// 注册点击事件
+	$("#titleList li a").click(function() {
+		if (!isSaved) {
+			if (!confirm("你修改的内容未保存，是否真的要离开？")) {
+				isSaved = true;
+				return;
+			}
+		}
+		$("#article_info").removeAttr("hidden");
+		// $("#titleList").attr("class", "collapse");
+		getArticle($(this).attr("article_id"));
+
+		// 加载代码高亮
+		initHighCode();
+	});
+}
 function getArticle(articleId) {
 	$.ajax({
 		async : false,
@@ -111,3 +105,14 @@ function getArticle(articleId) {
 		}
 	});
 }
+
+function initHighCode() {
+	var codes = $("#article_content").find("code");
+	var highCode;
+	for (var i = 0; i < codes.length; i++) {
+		highCode = hljs.highlightAuto(codes[i].innerText).value;
+		codes[i].innerHTML = highCode;
+	}
+}
+
+

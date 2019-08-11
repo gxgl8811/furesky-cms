@@ -33,7 +33,7 @@ public class CatalogController {
 		String catalogName=request.getParameter("catalogName");
 		String parentId=request.getParameter("parentId");
 		String rank=request.getParameter("rank");
-		String className=LocalCache.getLocalCache().get("className");
+		String className=LocalCache.get("className");
 		
 		if(StringUtils.isEmpty(catalogName) || StringUtils.isEmpty(rank)){
 			return ActionResult.getError("输入不能为空！");

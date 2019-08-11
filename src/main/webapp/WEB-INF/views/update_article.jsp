@@ -38,7 +38,7 @@
 					<div class="panel-heading">
 						<a data-toggle="collapse" href="#change_catalog"> 更改文章目录 </a>
 					</div>
-					<div id="change_catalog" class="collapse">
+					<div id="change_catalog">
 						<div class="panel-body">
 							<form id="changeCatalogForm">
 								<div class="form-group">
