@@ -8,7 +8,9 @@
 			catalog_id catalogId,
 			catalog_name catalogName,
 			parent_id parentId,
-			rank  	
+			<![CDATA[
+			"rank" 
+			]]> 	
 		FROM catalog_info
 		WHERE class_name = #{className} 
 	</select>
@@ -18,7 +20,9 @@
 			catalog_id catalogId,
 			catalog_name catalogName,
 			parent_id parentId,
-			rank  	
+			<![CDATA[
+			"rank" 
+			]]>  	
 		FROM catalog_info
 		WHERE catalog_id = #{catalogId} 
 	</select>
@@ -28,7 +32,9 @@
 			catalog_id,
 			catalog_name,
    			parent_id,
-   			rank,
+   			<![CDATA[
+			"rank", 
+			]]>
    			class_name
 		) VALUES (
 			#{catalogId},
@@ -49,7 +55,9 @@
 				,a.parent_id = #{parentId}
 			</if>
 			<if test="rank !=null and rank !=''">
-				,a.rank = #{rank}
+				<![CDATA[
+					,a."rank" = #{rank}				 
+				]]>
 			</if>
 		WHERE a.catalog_id = #{catalogId}
 	</update>
