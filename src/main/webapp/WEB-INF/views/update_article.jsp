@@ -33,12 +33,29 @@
 					</div>
 				</div>
 			</div>			
-			<div id="main_content" class="col-md-5">	
+			<div id="main_content" class="col-md-5">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<a data-toggle="collapse" href="#del_article"> 删除文章 </a>
+					</div>
+					<div id="del_article" class="collapse">
+						<div class="panel-body">
+							<form id="delAticleForm">
+								<div class="form-group">
+									<label for="del_articleName">文章：</label>
+									<input type="text" class="form-control" name="del_articleName" id="del_articleName" placeholder="请从文章列表中选择..." disabled>
+								</div>
+								<input type="text" name="del_articleId" id="del_articleId" hidden="hidden">							
+								<input type="submit" class="btn btn-default" value="删除"  onclick="return confirm('确定要删除?')">
+							</form>
+						</div>
+					</div>
+				</div>
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<a data-toggle="collapse" href="#change_catalog"> 更改文章目录 </a>
 					</div>
-					<div id="change_catalog">
+					<div id="change_catalog" class="collapse">
 						<div class="panel-body">
 							<form id="changeCatalogForm">
 								<div class="form-group">
@@ -56,23 +73,6 @@
 								<input type="text" name="newCatalogId" id="newCatalogId" hidden="hidden">
 								<input type="text" name="articleId" id="articleId" hidden="hidden">							
 								<input type="submit" class="btn btn-default" value="确定">
-							</form>
-						</div>
-					</div>
-				</div>
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<a data-toggle="collapse" href="#del_article"> 删除文章 </a>
-					</div>
-					<div id="del_article" class="collapse">
-						<div class="panel-body">
-							<form id="delAticleForm">
-								<div class="form-group">
-									<label for="del_articleName">文章：</label>
-									<input type="text" class="form-control" name="del_articleName" id="del_articleName" placeholder="请从文章列表中选择..." disabled>
-								</div>
-								<input type="text" name="del_articleId" id="del_articleId" hidden="hidden">							
-								<input type="submit" class="btn btn-default" value="删除"  onclick="return confirm('确定要删除?')">
 							</form>
 						</div>
 					</div>
