@@ -60,9 +60,8 @@
 						<li role="separator" class="divider"></li>
 						<li><a href="#">Git/GitHub</a></li>
 						<li><a href="#">Kettle</a></li>
-						<li><a href="#">...</a></li>
 						<li role="separator" class="divider"></li>
-						<li><a href="#">...</a></li>
+						<li><a href="#">Hive</a></li>
 						<li role="separator" class="divider"></li>
 						<li><a href="#">...</a></li>
 					</ul></li>
