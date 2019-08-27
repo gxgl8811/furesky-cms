@@ -57,7 +57,7 @@ function initMenu(treeData){
 		backColor: "#f8f8f8",
 		onhoverColor:"#dcdcdc",
 		selectedBackColor:"#B4B4C3",
-		levels:2,
+		levels:3,
 		collapseIcon:"glyphicon glyphicon-chevron-up",
 		expandIcon:"glyphicon glyphicon-chevron-down",
 		onNodeSelected: selectMenu
