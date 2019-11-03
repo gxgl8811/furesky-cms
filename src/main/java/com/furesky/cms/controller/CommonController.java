@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.furesky.base.ActionResult;
+import com.furesky.base.Result;
 import com.furesky.base.treedata.TreeUtils;
 import com.furesky.base.utils.LocalCache;
 import com.furesky.cms.model.Catalog;
@@ -30,7 +30,7 @@ public class CommonController {
 	
 	@ResponseBody
 	@RequestMapping(value="/cms/menus",method=RequestMethod.POST)
-    public ActionResult getMemus(HttpServletRequest request){	
+    public Result<List<Catalog>> getMemus(HttpServletRequest request){	
 		String className=request.getParameter("className");
     	if(StringUtils.isEmpty(className)){
     		className=LocalCache.get("className");
@@ -39,9 +39,9 @@ public class CommonController {
 		}
     	List<Catalog> catalogs = catalogService.getListByClassName(className);
     	if(catalogs==null||catalogs.size()<1){
-    		return ActionResult.getError("未找到相关内容");
+    		return Result.error("未找到相关内容");
     	}
     	catalogs=TreeUtils.getTreeData(catalogs);
-        return ActionResult.getSuccess(catalogs);  
+        return Result.success(catalogs);  
     }  
 }

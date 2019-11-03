@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.furesky.base.ActionResult;
+import com.furesky.base.Result;
 import com.furesky.base.utils.IdGen;
 import com.furesky.cms.model.Article;
 import com.furesky.cms.service.ArticleService;
@@ -25,16 +25,16 @@ public class ArticleController {
 
 	@ResponseBody
 	@RequestMapping("/getList")
-	public ActionResult getArticleList(HttpServletRequest request) {
+	public Result<List<Article>> getArticleList(HttpServletRequest request) {
 		String catalogId = request.getParameter("catalogId");
 		if (StringUtils.isEmpty(catalogId)) {
-			return ActionResult.getError("未找到相关目录");
+			return Result.error("未找到相关目录");
 		}
 		List<Article> list = articleService.getListByCatalogId(catalogId);
 		if(list==null){
-			return ActionResult.getError("未找到相关文章");
+			return Result.error("未找到相关文章");
 		}
-		return ActionResult.getSuccess(list);
+		return Result.success(list);
 	}
 	
 	@RequestMapping(value="/add",method=RequestMethod.GET)
@@ -44,12 +44,12 @@ public class ArticleController {
 	
 	@ResponseBody
 	@RequestMapping(value="/addArticle",method=RequestMethod.POST)
-	public ActionResult addArticle(HttpServletRequest request) {
+	public Result<String> addArticle(HttpServletRequest request) {
 		String title=request.getParameter("title");
 		String catalogId=request.getParameter("catalogId");
 				
 		if(StringUtils.isEmpty(title) || StringUtils.isEmpty(catalogId)){
-			return ActionResult.getError("输入不能为空！");
+			return Result.error("输入不能为空！");
 		}
 		
 		Article article=new Article();
@@ -62,9 +62,9 @@ public class ArticleController {
 		int result=articleService.insert(article);
 
 		if(result==1){
-			return ActionResult.getSuccess("添加成功！");
+			return Result.success();
 		}
-		return ActionResult.getError("添加失败！");
+		return Result.error();
 	}
 	
 	@RequestMapping(value="/update",method=RequestMethod.GET)
@@ -74,12 +74,12 @@ public class ArticleController {
 	
 	@ResponseBody
 	@RequestMapping(value="/changeCatalog",method=RequestMethod.POST)
-	public ActionResult changeCatalog(HttpServletRequest request) {
+	public Result<String> changeCatalog(HttpServletRequest request) {
 		String newCatalogId=request.getParameter("newCatalogId");
 		String articleId=request.getParameter("articleId");
 		
 		if(StringUtils.isEmpty(newCatalogId) || StringUtils.isEmpty(articleId)){
-			return ActionResult.getError("输入不能为空！");
+			return Result.error("输入不能为空！");
 		}
 		
 		Article article=new Article();
@@ -88,32 +88,32 @@ public class ArticleController {
 		int result=articleService.update(article);
 		
 		if(result==1){
-			return ActionResult.getSuccess("改变文章所属目录成功！");
+			return Result.success();
 		}
-		return ActionResult.getError("改变文章所属目录失败！");
+		return Result.error();
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="/get",method=RequestMethod.POST)
-	public ActionResult getById(HttpServletRequest request) {
+	public Result<Article> getById(HttpServletRequest request) {
 		String articleId=request.getParameter("articleId");
 				
 		if(StringUtils.isEmpty(articleId)){
-			return ActionResult.getError("输入不能为空！");
+			return Result.error("输入不能为空！");
 		}
 		
 		Article article=articleService.getById(articleId);
-		return ActionResult.getSuccess(article);
+		return Result.success(article);
 	}
 
 	@ResponseBody
 	@RequestMapping("/edit")
-	public ActionResult editArticle(HttpServletRequest request) {
+	public Result<String> editArticle(HttpServletRequest request) {
 		String articleId=request.getParameter("articleId");
 		String title=request.getParameter("title");
 		String content=request.getParameter("content");
 		if(StringUtils.isEmpty(articleId)){
-			return ActionResult.getError("修改失败，文章信息不完整！");
+			return Result.error("修改失败，文章信息不完整！");
 		}
 		
 		Article article=new Article();
@@ -122,22 +122,22 @@ public class ArticleController {
 		article.setContent(content);		
 		int result= articleService.update(article);
 		if(result==1){
-			return ActionResult.getSuccess("修改成功！");
+			return Result.success();
 		}
-		return ActionResult.getError("修改失败!");
+		return Result.error();
 	}
 	
 	@ResponseBody
 	@RequestMapping("/delete")
-	public ActionResult deleteArticle(HttpServletRequest request) {
+	public Result<String> deleteArticle(HttpServletRequest request) {
 		String articleId=request.getParameter("del_articleId");
 		if(StringUtils.isEmpty(articleId)){
-			return ActionResult.getError("请选择要删除的文章！");
+			return Result.error("请选择要删除的文章！");
 		}
 		int result= articleService.deleteById(articleId);
 		if(result==1){
-			return ActionResult.getSuccess("删除成功！");
+			return Result.success();
 		}
-		return ActionResult.getError("修删除失败!");
+		return Result.error();
 	}
 }

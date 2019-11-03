@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.furesky.base.ActionResult;
+import com.furesky.base.Result;
 import com.furesky.base.utils.IdGen;
 import com.furesky.cms.model.Label;
 import com.furesky.cms.service.LabelService;
@@ -28,15 +28,15 @@ public class LabelController {
 	
 	@ResponseBody
 	@RequestMapping(value="/addLabel",method=RequestMethod.POST)
-	public ActionResult addLabel(HttpServletRequest request) {
+	public Result<String> addLabel(HttpServletRequest request) {
 		String labelName=request.getParameter("labelName");
 		if(StringUtils.isEmpty(labelName)){
-			return ActionResult.getError("请输入标签名！");
+			return Result.error("请输入标签名！");
 		}		
 		
 		Label label=labelService.getByLabelName(labelName);
 		if(label!=null){
-			return ActionResult.getError("标签已经存在！");
+			return Result.error("标签已经存在！");
 		}
 		
 		label=new Label();		
@@ -44,8 +44,8 @@ public class LabelController {
 		label.setLabelName(labelName);
 		int result=labelService.insert(label);						
 		if(result==1){
-			return ActionResult.getSuccess("添加成功！");
+			return Result.success();
 		}
-		return ActionResult.getError("添加失败！");		
+		return Result.error();		
 	}
 }

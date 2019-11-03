@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.furesky.base.ActionResult;
+import com.furesky.base.Result;
 import com.furesky.base.utils.IdGen;
 import com.furesky.base.utils.LocalCache;
 import com.furesky.cms.model.Catalog;
@@ -29,14 +29,14 @@ public class CatalogController {
 	
 	@ResponseBody
 	@RequestMapping(value="/addCatalog",method=RequestMethod.POST)
-	public ActionResult addCatalog(HttpServletRequest request) {
+	public Result<String> addCatalog(HttpServletRequest request) {
 		String catalogName=request.getParameter("catalogName");
 		String parentId=request.getParameter("parentId");
 		String rank=request.getParameter("rank");
 		String className=LocalCache.get("className");
 		
 		if(StringUtils.isEmpty(catalogName) || StringUtils.isEmpty(rank)){
-			return ActionResult.getError("输入不能为空！");
+			return Result.error("输入不能为空！");
 		}
 
 		String parentRank="";
@@ -55,22 +55,22 @@ public class CatalogController {
 		catalog.setParentId(parentId);
 		int result=catalogService.insert(catalog);
 		if(result==1){
-			return ActionResult.getSuccess("添加成功！");
+			return Result.success();
 		}
-		return ActionResult.getError("添加失败！");
+		return Result.error();
 	}
 	
 	@ResponseBody
 	@RequestMapping(value="/updateCatalog",method=RequestMethod.POST)
-	public ActionResult updateCatalog(HttpServletRequest request) {
+	public Result<String> updateCatalog(HttpServletRequest request) {
 		String newCatalogName=request.getParameter("newCatalogName");
 		String oldCatalogId=request.getParameter("oldCatalogId");
 		
 		if(StringUtils.isEmpty(oldCatalogId)){
-			return ActionResult.getError("原目录名不能为空！");
+			return Result.error("原目录名不能为空！");
 		}
 		if(StringUtils.isEmpty(newCatalogName)){
-			return ActionResult.getError("新目录名不能为空！");
+			return Result.error("新目录名不能为空！");
 		}
 
 		
@@ -79,8 +79,8 @@ public class CatalogController {
 		catalog.setCatalogName(newCatalogName);
 		int result=catalogService.update(catalog);
 		if(result==1){
-			return ActionResult.getSuccess("添加成功！");
+			return Result.success();
 		}
-		return ActionResult.getError("添加失败！");
+		return Result.error();
 	}
 }
